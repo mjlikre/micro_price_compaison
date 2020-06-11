@@ -1,4 +1,4 @@
-const scrape_db = require("../models");
+const scrape_db = require("../Models");
 
 module.exports = {
     getAllList : async (req, res) => {
