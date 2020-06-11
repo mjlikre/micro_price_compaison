@@ -2,11 +2,12 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const scrape_db = require("../Models");
 const date = new Date()
-setTimeout ( function (){
-  module.exports.autoScrapeMethod()
-  console.log("here i go")
-}, 100)
-setInterval(()=> {module.exports.autoScrapeMethod(); console.log("starting")}, 36000000)
+// setTimeout ( function (){
+//   module.exports.autoScrapeMethod()
+//   console.log("here i go")
+// }, 100)
+// setInterval(()=> {module.exports.autoScrapeMethod(); console.log("starting")}, 36000000)
+console.log(date, "date", date.getTime())
 module.exports = {
   autoScrapeMethod: async () => {
     const query = "SELECT * from ??"
@@ -140,17 +141,7 @@ module.exports = {
         module.exports.saveData(id, link_id, price, product);
       })
       .catch((err) => {
-        let num; 
-        if (fails) {
-          num = fails +1 
-        }else{
-          num = 0
-        }
-        if (fails < 5){
-          setTimeout(()=>{module.exports.getAmazon(link, id, link_id, num)}, 100);
-        }
-        else{console.log(err)}
-        
+        setTimeout(()=>{module.exports.getAmazon(link, id, link_id, num)}, 100);
       });
   },
   getWalmart: async (link, id, link_id) => {
@@ -167,16 +158,9 @@ module.exports = {
         module.exports.saveData(id, link_id, price, product);
       })
       .catch((err) => {
-        let num; 
-        if (fails) {
-          num = fails +1 
-        }else{
-          num = 0
-        }
-        if (fails < 5){
           setTimeout(function () {module.exports.getWalmart(link, id, link_id, num)}, 100);
-        }else{console.log(err)}
-      });
+      })
+
   },
   getEbay: async (link, id, link_id) => {
     const headers = {
@@ -195,15 +179,9 @@ module.exports = {
         module.exports.saveData(id, link_id, price, product);
       })
       .catch((err) => {
-        let num; 
-        if (fails) {
-          num = fails +1 
-        }else{
-          num = 0
-        }
-        if (fails < 5){
+    
           setTimeout(function () {module.exports.getEbay(link, id, link_id, num)}, 100);
-        }else{console.log(err)}
+  
       });
   },
   saveData: async (id, link_id, price, product) => {
