@@ -1,6 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-const scrape_db = require("../models");
+const scrape_db = require("../Models");
 const date = new Date()
 setTimeout ( function (){
   module.exports.autoScrapeMethod()
