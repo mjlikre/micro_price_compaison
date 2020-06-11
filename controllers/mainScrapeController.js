@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 const scrape_db = require("../models");
 const date = new Date()
 module.exports.autoScrapeMethod()
-setInterval(()=> {module.exports.autoScrapeMethod(); console.log("starting")}, 3600000)
+setInterval(()=> {module.exports.autoScrapeMethod(); console.log("starting")}, 60000)
 module.exports = {
   autoScrapeMethod: async () => {
     const query = "SELECT * from ??"
