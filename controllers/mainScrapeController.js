@@ -2,7 +2,10 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const scrape_db = require("../models");
 const date = new Date()
-module.exports.autoScrapeMethod()
+setTimeout ( function (){
+  module.exports.autoScrapeMethod()
+  console.log("here i go")
+}, 100)
 setInterval(()=> {module.exports.autoScrapeMethod(); console.log("starting")}, 60000)
 module.exports = {
   autoScrapeMethod: async () => {
