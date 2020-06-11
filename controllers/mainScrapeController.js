@@ -4,6 +4,7 @@ const scrape_db = require("../Models");
 const date = new Date()
 setTimeout ( function (){
   module.exports.autoScrapeMethod()
+  console.log("start")
 }, 100)
 setInterval(()=> {module.exports.autoScrapeMethod(); console.log("scrape")}, 36000000)
 module.exports = {
@@ -51,8 +52,6 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
-
-    console.log("Scrape Scrape Scrape")
   },
   masterScrapeMethod: async (req, res) => {
     const query = "SELECT * from ??"
@@ -121,7 +120,7 @@ module.exports = {
       );
     }
   },
-  getAmazon: async (link, id, link_id, fails) => {
+  getAmazon: async (link, id, link_id) => {
     const headers = {
       "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36",
@@ -139,7 +138,7 @@ module.exports = {
         module.exports.saveData(id, link_id, price, product);
       })
       .catch((err) => {
-        setTimeout(()=>{module.exports.getAmazon(link, id, link_id, num)}, 100);
+        setTimeout(()=>{module.exports.getAmazon(link, id, link_id)}, 100);
       });
   },
   getWalmart: async (link, id, link_id) => {
@@ -156,7 +155,7 @@ module.exports = {
         module.exports.saveData(id, link_id, price, product);
       })
       .catch((err) => {
-          setTimeout(function () {module.exports.getWalmart(link, id, link_id, num)}, 100);
+          setTimeout(function () {module.exports.getWalmart(link, id, link_id)}, 100);
       })
 
   },
@@ -178,7 +177,7 @@ module.exports = {
       })
       .catch((err) => {
     
-          setTimeout(function () {module.exports.getEbay(link, id, link_id, num)}, 100);
+          setTimeout(function () {module.exports.getEbay(link, id, link_id)}, 100);
   
       });
   },
