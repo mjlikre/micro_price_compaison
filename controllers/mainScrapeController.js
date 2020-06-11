@@ -6,7 +6,7 @@ setTimeout ( function (){
   module.exports.autoScrapeMethod()
   console.log("here i go")
 }, 100)
-setInterval(()=> {module.exports.autoScrapeMethod(); console.log("starting")}, 60000)
+setInterval(()=> {module.exports.autoScrapeMethod(); console.log("starting")}, 36000000)
 module.exports = {
   autoScrapeMethod: async () => {
     const query = "SELECT * from ??"
@@ -27,7 +27,7 @@ module.exports = {
                     item.product_id,
                     item.link_id
                   );
-                }, 50);
+                }, 100);
               } else if (item.url.split(".")[1] === "ebay") {
                 setTimeout(() => {
                   module.exports.getEbay(
@@ -35,7 +35,7 @@ module.exports = {
                     item.product_id,
                     item.link_id
                   );
-                }, 50);
+                }, 100);
               } else if (item.url.split(".")[1] === "walmart") {
                 setTimeout(() => {
                   module.exports.getWalmart(
@@ -43,7 +43,7 @@ module.exports = {
                     item.product_id,
                     item.link_id
                   );
-                }, 50);
+                }, 100);
               }
             });
           }
@@ -74,7 +74,7 @@ module.exports = {
                     item.product_id,
                     item.link_id
                   );
-                }, 50);
+                }, 100);
               } else if (item.url.split(".")[1] === "ebay") {
                 setTimeout(() => {
                   module.exports.getEbay(
@@ -82,7 +82,7 @@ module.exports = {
                     item.product_id,
                     item.link_id
                   );
-                }, 50);
+                }, 100);
               } else if (item.url.split(".")[1] === "walmart") {
                 setTimeout(() => {
                   module.exports.getWalmart(
@@ -90,7 +90,7 @@ module.exports = {
                     item.product_id,
                     item.link_id
                   );
-                }, 50);
+                }, 100);
               }
             });
           }
@@ -122,11 +122,12 @@ module.exports = {
       );
     }
   },
-  getAmazon: async (link, id, link_id) => {
+  getAmazon: async (link, id, link_id, fails) => {
     const headers = {
       "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36",
     };
+    
     await axios
       .get(link, headers)
       .then(function (response) {
@@ -139,8 +140,17 @@ module.exports = {
         module.exports.saveData(id, link_id, price, product);
       })
       .catch((err) => {
-        console.log("amazon, couldn't get product id " + id);
-        module.exports.getAmazon(link, id, link_id);
+        let num; 
+        if (fails) {
+          num = fails +1 
+        }else{
+          num = 0
+        }
+        if (fails < 5){
+          setTimeout(()=>{module.exports.getAmazon(link, id, link_id, num)}, 100);
+        }
+        else{console.log(err)}
+        
       });
   },
   getWalmart: async (link, id, link_id) => {
@@ -157,8 +167,15 @@ module.exports = {
         module.exports.saveData(id, link_id, price, product);
       })
       .catch((err) => {
-        console.log("walmart, couldn't get product id " + id);
-        module.exports.getWalmart(link, id, link_id);
+        let num; 
+        if (fails) {
+          num = fails +1 
+        }else{
+          num = 0
+        }
+        if (fails < 5){
+          setTimeout(function () {module.exports.getWalmart(link, id, link_id, num)}, 100);
+        }else{console.log(err)}
       });
   },
   getEbay: async (link, id, link_id) => {
@@ -178,8 +195,15 @@ module.exports = {
         module.exports.saveData(id, link_id, price, product);
       })
       .catch((err) => {
-        console.log("ebay,couldn't get product id " + id);
-        module.exports.getEbay(link, id, link_id);
+        let num; 
+        if (fails) {
+          num = fails +1 
+        }else{
+          num = 0
+        }
+        if (fails < 5){
+          setTimeout(function () {module.exports.getEbay(link, id, link_id, num)}, 100);
+        }else{console.log(err)}
       });
   },
   saveData: async (id, link_id, price, product) => {
