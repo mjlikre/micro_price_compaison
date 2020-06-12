@@ -6,7 +6,6 @@ setTimeout ( function (){
   module.exports.autoScrapeMethod()
   console.log("start")
 }, 100)
-setInterval(()=> {module.exports.autoScrapeMethod(); console.log("scrape")}, 36000000)
 module.exports = {
   autoScrapeMethod: async () => {
     const query = "SELECT * from ??"
@@ -133,6 +132,9 @@ module.exports = {
         let price = parseFloat($amazon("#priceblock_ourprice").text().split(" ")[0].split("$")[1]);
         if (!price) {
           price = parseFloat($amazon("#priceblock_saleprice").text().split(" ")[0].split("$")[1]);
+          if (!price) {
+            price = 0
+          }
         }
         const product = $amazon("#productTitle").text().trim();
         module.exports.saveData(id, link_id, price, product);
@@ -171,6 +173,9 @@ module.exports = {
         let price = parseFloat($ebay("#prcIsum").text().trim().split(" ")[1].split("$")[1].split("/")[0]);
         if (!price) {
           price = parseFloat($ebay("#mm-saleDscPrc").text().trim().split(" ")[1].split("$")[1].split("/")[0]);
+          if (!price) {
+            price = 0
+          }
         }
         const product = $ebay("#itemTitle").text().trim();
         module.exports.saveData(id, link_id, price, product);
