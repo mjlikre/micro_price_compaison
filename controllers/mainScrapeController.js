@@ -2,6 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const scrape_db = require("../Models");
 const date = new Date()
+// once the server starts, it will run this auto scrape method to get the data
 setTimeout ( function (){
   module.exports.autoScrapeMethod()
   console.log("start")
@@ -18,6 +19,7 @@ module.exports = {
           if (err) console.log(err)
           else{
             data = response
+// since these websites have anti scrapping set up, when a scrape request fails, it will automatically run again, for specific details please check the code for each individual type of scrapping
             data.forEach((item) => {
               if (item.url.split(".")[1] === "amazon") {
                 setTimeout(() => {
